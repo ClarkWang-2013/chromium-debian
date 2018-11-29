@@ -167,14 +167,14 @@ Comment[vi]=Truy cập Internet
 Comment[zh_CN]=访问互联网
 Comment[zh_HK]=連線到網際網路
 Comment[zh_TW]=連線到網際網路
-Exec=chromium-browser %U
+Exec=chromium-browser --ignore-gpu-blacklist --enable-features=WebRTC-H264WithOpenH264FFmpeg %U
 Terminal=false
 X-MultipleArgs=false
 Type=Application
-Icon=chromium-browser
+Icon=/usr/share/pixmaps/chromium-browser.png
 Categories=Network;WebBrowser;
 MimeType=text/html;text/xml;application/xhtml_xml;x-scheme-handler/http;x-scheme-handler/https;
-StartupNotify=true
+StartupNotify=false
 Actions=NewWindow;Incognito;TempProfile;
 X-AppInstall-Package=chromium-browser
 

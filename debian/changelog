@@ -1,3 +1,10 @@
+chromium-browser (60.0.3096.2-0deepin7) deepin15.5; urgency=medium
+
+  * Complete the first adaptation in deepin
+  * Update release 60.0.3096.2-7 from Loongnix chromium
+
+ -- Wang Qing <wangqing-hf@loongson.cn>  Mon, 26 Nov 2018 17:25:16 +0200
+
 chromium-browser (60.0.3112.78-0ubuntu0.16.04.1293) xenial; urgency=medium
 
   * Upstream release: 60.0.3112.78

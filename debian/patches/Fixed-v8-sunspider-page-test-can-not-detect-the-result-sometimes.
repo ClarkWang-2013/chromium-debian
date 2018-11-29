@@ -1,0 +1,37 @@
+Description: <short summary of the patch>
+ TODO: Put a short summary on the line above and replace this paragraph
+ with a longer explanation of this change. Complete the meta-information
+ with other relevant fields (see below for details). To make it easier, the
+ information below has been extracted from the changelog. Adjust it or drop
+ it.
+ .
+ chromium-browser (60.0.3096.2-0deepin7) deepin15.5; urgency=medium
+ .
+   * Complete the first adaptation in deepin
+   * Update release 60.0.3096.2-7 from Loongnix chromium
+Author: Wang Qing <wangqing-hf@loongson.cn>
+
+---
+The information above should follow the Patch Tagging Guidelines, please
+checkout http://dep.debian.net/deps/dep3/ to learn about the format. Here
+are templates for supplementary fields that you might want to add:
+
+Origin: <vendor|upstream|other>, <url of original patch>
+Bug: <url in upstream bugtracker>
+Bug-Debian: https://bugs.debian.org/<bugnumber>
+Bug-Ubuntu: https://launchpad.net/bugs/<bugnumber>
+Forwarded: <no|not-needed|url proving that it has been forwarded>
+Reviewed-By: <name and email of someone who approved the patch>
+Last-Update: 2018-11-27
+
+--- chromium-browser-60.0.3096.2.orig/v8/src/runtime/runtime-strings.cc
++++ chromium-browser-60.0.3096.2/v8/src/runtime/runtime-strings.cc
+@@ -118,7 +118,7 @@ RUNTIME_FUNCTION(Runtime_StringReplaceOn
+ 
+   // If the cons string tree is too deep, we simply abort the recursion and
+   // retry with a flattened subject string.
+-  const int kRecursionLimit = 0x1000;
++  const int kRecursionLimit = 1000;
+   bool found = false;
+   Handle<String> result;
+   if (StringReplaceOneCharWithString(isolate, subject, search, replace, &found,

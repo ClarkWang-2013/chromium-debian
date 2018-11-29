@@ -9,23 +9,22 @@ DEBIAN_DIST_NAME	:= $(shell lsb_release -si |sed -e 's/\#/ /g')
 
 LIB_DIR        := usr/lib/chromium-browser
 
-ifneq (,$(findstring Ubuntu,$(DEBIAN_DIST)))
-DISTRIBUTION := UBUNTU
-UBUNTU_DIST := $(DEBIAN_DIST)
-endif
-
-# Set up Google API keys, see http://www.chromium.org/developers/how-tos/api-keys .
-# Note: these are for Ubuntu use ONLY. For your own distribution,
-# please get your own set of keys.
-# Permission to add API keys, from Paweł Hajdan, To chad.miller@canonical.com
-# msgid: CAADNaOFSFoch68NM1SGpCTRXqmspyKQgUPUtsF7SGRsRXiHZcg@mail.gmail.com
-GOOGLEAPI_APIKEY_UBUNTU := AIzaSyDGQzx0c0ptZVDriLi9Wblo2voeLnmPq-o
-GOOGLEAPI_CLIENTID_UBUNTU := 424119844901-tilod0e1nm0dt85e1evrdfp3cc3ec01d.apps.googleusercontent.com
-GOOGLEAPI_CLIENTSECRET_UBUNTU := WCCejhqORuxKG272GAWxsPIU
+#ifneq (,$(findstring Ubuntu,$(DEBIAN_DIST)))
+#DISTRIBUTION := UBUNTU
+#UBUNTU_DIST := $(DEBIAN_DIST)
+#endif
+#
+## Set up Google API keys, see http://www.chromium.org/developers/how-tos/api-keys .
+## Note: these are for Ubuntu use ONLY. For your own distribution,
+## please get your own set of keys.
+## Permission to add API keys, from Paweł Hajdan, To chad.miller@canonical.com
+## msgid: CAADNaOFSFoch68NM1SGpCTRXqmspyKQgUPUtsF7SGRsRXiHZcg@mail.gmail.com
+#GOOGLEAPI_APIKEY_UBUNTU := AIzaSyDGQzx0c0ptZVDriLi9Wblo2voeLnmPq-o
+#GOOGLEAPI_CLIENTID_UBUNTU := 424119844901-tilod0e1nm0dt85e1evrdfp3cc3ec01d.apps.googleusercontent.com
+#GOOGLEAPI_CLIENTSECRET_UBUNTU := WCCejhqORuxKG272GAWxsPIU
 
 common_defines :=
 browser_defines :=
-ffmpeg_std_defines :=
 ffmpeg_extra_defines :=
 
 # enable verbose build messages
@@ -50,47 +49,35 @@ DEB_DH_SHLIBDEPS_ARGS_chromium-codecs-ffmpeg := -ldebian/chromium-codecs-ffmpeg/
 DEB_DH_SHLIBDEPS_ARGS_chromium-codecs-ffmpeg-extra := -ldebian/chromium-codecs-ffmpeg-extra/$(LIB_DIR)
 
 common_defines+=\
-	enable_google_now=false \
-	enable_hangout_services_extension=true \
-	enable_hotwording=false \
-	enable_mdns=true \
-	enable_nacl=false \
-	enable_wayland_server=false \
-	enable_webrtc=true \
-	enable_widevine=true \
-	fieldtrial_testing_like_official_build=true \
-	is_component_build=true \
-	is_component_ffmpeg=true \
-	is_debug=false \
-	is_desktop_linux=true \
-	remove_webcore_debug_symbols=true \
-	symbol_level=1 \
-	treat_warnings_as_errors=false \
-	use_allocator="none" \
-	use_alsa=true \
-	use_aura=true \
-	use_cups=true \
-	use_dbus=true \
-	use_gconf=false \
-	use_gio=true \
-	use_glib=true \
-	use_gold=false \
-	use_gtk3=true \
-	use_libpci=true \
-	use_pulseaudio=true \
-	use_sysroot=false \
-	use_system_harfbuzz=false \
-	use_system_libjpeg=false \
-	use_system_sqlite=false \
-	rtc_enable_protobuf=false \
-	is_clang=true \
-	clang_base_path="/usr" \
-	clang_use_chrome_plugins=false \
-	target_os="linux" \
-	current_os="linux" \
-	use_vulcanize=false
-
-ffmpeg_std_defines   += proprietary_codecs=false
+        google_api_key="AIzaSyDxKL42zsPjbke5O8_rPVpVrLrJ8aeE9rQ" \
+        google_default_client_id="595013732528-llk8trb03f0ldpqq6nprjp1s79596646.apps.googleusercontent.com" \
+        google_default_client_secret="5ntt6GbbkjnTVXx-MSxbmx5e" \
+        clang_use_chrome_plugins=false \
+        enable_hangout_services_extension=true \
+        enable_nacl=false \
+        enable_nacl_nonsfi=false \
+        enable_widevine=true \
+        fatal_linker_warnings=false \
+        ffmpeg_branding="Chrome" \
+        fieldtrial_testing_like_official_build=true \
+        is_debug=false \
+        is_clang=false \
+        link_pulseaudio=true \
+        linux_use_bundled_binutils=false \
+        proprietary_codecs=true \
+        remove_webcore_debug_symbols=true \
+        symbol_level=0 \
+        treat_warnings_as_errors=false \
+        use_allocator="none" \
+        use_cups=true \
+        use_gconf=false \
+        use_gnome_keyring=false \
+        use_gold=false \
+        use_gtk3=false \
+        use_kerberos=true \
+        use_pulseaudio=true \
+        use_sysroot=false
+	
 ffmpeg_extra_defines += proprietary_codecs=true ffmpeg_branding="Chrome"
 
 # system libraries to use
@@ -125,6 +112,8 @@ else ifeq (amd64,$(DEB_HOST_ARCH))
 common_defines += target_cpu="x64"
 else ifeq (mipsel,$(DEB_HOST_ARCH))
 common_defines += target_cpu="mipsel"
+else ifeq (mips64el,$(DEB_HOST_ARCH))
+common_defines += target_cpu="mips64el"
 else ifeq ($(DEB_HOST_ARCH),)
 else
 $(warning unanticipated arch $(DEB_HOST_ARCH))
@@ -137,19 +126,20 @@ else ifeq (arm64,$(DEB_BUILD_ARCH))
 else ifeq (i386,$(DEB_BUILD_ARCH))
 else ifeq (amd64,$(DEB_BUILD_ARCH))
 else ifeq (mipsel,$(DEB_BUILD_ARCH))
+else ifeq (mips64el,$(DEB_BUILD_ARCH))
 else
 $(warning unanticipated arch $(DEB_HOST_ARCH))
 endif
 
 
-ifneq (,$(GOOGLEAPI_APIKEY_$(DISTRIBUTION)))
-common_defines += \
-	google_api_key="$(GOOGLEAPI_APIKEY_$(DISTRIBUTION))" \
-	google_default_client_id="$(GOOGLEAPI_CLIENTID_$(DISTRIBUTION))" \
-	google_default_client_secret="$(GOOGLEAPI_CLIENTSECRET_$(DISTRIBUTION))"
-else
-$(warning Google API info is not set in build variables GOOGLEAPI_APIKEY_$(DISTRIBUTION) GOOGLEAPI_CLIENTID_$(DISTRIBUTION) GOOGLEAPI_CLIENTSECRET_$(DISTRIBUTION))
-endif
+#ifneq (,$(GOOGLEAPI_APIKEY_$(DISTRIBUTION)))
+#common_defines += \
+#	google_api_key="$(GOOGLEAPI_APIKEY_$(DISTRIBUTION))" \
+#	google_default_client_id="$(GOOGLEAPI_CLIENTID_$(DISTRIBUTION))" \
+#	google_default_client_secret="$(GOOGLEAPI_CLIENTSECRET_$(DISTRIBUTION))"
+#else
+#$(warning Google API info is not set in build variables GOOGLEAPI_APIKEY_$(DISTRIBUTION) GOOGLEAPI_CLIENTID_$(DISTRIBUTION) GOOGLEAPI_CLIENTSECRET_$(DISTRIBUTION))
+#endif
 
 ### Official interfaces.
 
@@ -188,16 +178,12 @@ override_dh_auto_configure: out/Release/gn
 	test ! "$(use_system_libraries)" || python2 build/linux/unbundle/replace_gn_files.py --system-libraries $(use_system_libraries)
 	out/Release/gn gen --fail-on-unused-args --args='$(common_defines) $(browser_defines) $(ffmpeg_extra_defines)' out/Release
 
-	out/Release/gn gen --fail-on-unused-args --args='$(common_defines) $(ffmpeg_std_defines)' out/ffmpeg-std
-
 
 # There are two things to build. Standard ffmpeg+browser, and full ffmpeg.
 override_dh_auto_build: BUILD_TARGETS := chrome chrome_sandbox chromedriver
 override_dh_auto_build:
 
 	while sleep 1200; do echo "#  I ATEN'T DEAD"; done& ninja -v -C out/Release $(BUILD_TARGETS) && { kill \%1; sleep 1; echo; true; } || { kill \%1; exit 1; sleep 2; echo; false; }
-
-	ninja -v -C out/ffmpeg-std libffmpeg.so
 
 
 override_dh_fixperms:
@@ -221,19 +207,13 @@ override_dh_install-arch:
 
 	mkdir -p $(T)
 
-	mkdir -p                             $(CURDIR)/debian/tmp-extra/$(LIB_DIR)
-	mv -v out/Release/libffmpeg.so       $(CURDIR)/debian/tmp-extra/$(LIB_DIR)
-
-	mkdir -p                             $(CURDIR)/debian/tmp-std/$(LIB_DIR)
-	mv -v out/ffmpeg-std/libffmpeg.so    $(CURDIR)/debian/tmp-std/$(LIB_DIR)
-
 	mkdir -p $(CURDIR)/debian/tmp/$(LIB_DIR)
 	(cd out/Release && tar --remove-files $(foreach excl,$(TRASH),--exclude=$(excl) ) --dereference -cf - .;) | (cd debian/tmp/$(LIB_DIR) && tar xvf -;)
 	(cd out/Release && tar --remove-files -cf - $$(find *locales -type f -name en-US.pak) --dereference;) | (cd debian/tmp/$(LIB_DIR) && tar xvf -;)
-#
+
 	# NaCL may be blacklisted.
-	cp -a out/Release/libppGoogleNaClPluginChrome.so debian/chromium-browser/$(LIB_DIR)/ || echo No NaCl. That is okay.
-	cp -a out/Release/nacl_irt_* debian/chromium-browser/$(LIB_DIR)/ || echo No NaCl. That is okay.
+	#cp -a out/Release/libppGoogleNaClPluginChrome.so debian/chromium-browser/$(LIB_DIR)/ || echo No NaCl. That is okay.
+	#cp -a out/Release/nacl_irt_* debian/chromium-browser/$(LIB_DIR)/ || echo No NaCl. That is okay.
 
 	# Icons
 	cp -a chrome/app/theme/chromium/product_logo_48.png debian/chromium-browser/usr/share/pixmaps/chromium-browser.png
@@ -250,7 +230,7 @@ override_dh_install-arch:
 
 
 	# Record files that were built, so we can compare later that we instlled everything.
-	find debian/tmp debian/tmp-std debian/tmp-std -type f |cut -d/ -f3- >$(T)/unfiltered-built
+	find debian/tmp -type f |cut -d/ -f3- >$(T)/unfiltered-built
 	grep -vE \($(subst $(SPACE),\|,$(BUILT_UNUSED_MATCH))\) $(T)/unfiltered-built $(foreach expr,$(RENAMED_FILE), |sed -r -e $(expr)) |grep -vE \($(subst $(SPACE),\|,$(INDEP_MATCH))\) | LC_ALL=C sort >$(T)/built
 
 	#
@@ -269,8 +249,8 @@ override_dh_install-arch:
 	install -T -m 555 debian/tmp/$(LIB_DIR)/chrome debian/chromium-browser/$(LIB_DIR)/chromium-browser
 	rm                debian/tmp/$(LIB_DIR)/chrome
 
-	# "you have to change the underscore from the build target into a hyphen".
-	# https://code.google.com/p/chromium/wiki/LinuxSUIDSandbox
+        # "you have to change the underscore from the build target into a hyphen".
+        # https://code.google.com/p/chromium/wiki/LinuxSUIDSandbox
 	install -T -m 4555 debian/tmp/$(LIB_DIR)/chrome_sandbox debian/chromium-browser/$(LIB_DIR)/chrome-sandbox
 	rm                 debian/tmp/$(LIB_DIR)/chrome_sandbox
 
@@ -338,7 +318,7 @@ override_dh_install-indep:
 
 	# record built so we can compare later
 	mkdir -p $(T)
-	find debian/tmp debian/tmp-std -type f |cut -d/ -f3- >$(T)/unfiltered-built
+	find debian/tmp -type f |cut -d/ -f3- >$(T)/unfiltered-built
 	grep -E \($(subst $(SPACE),\|,$(INDEP_MATCH))\) $(T)/unfiltered-built $(foreach expr,$(RENAMED_FILE), |sed -r -e $(expr)) |grep -v /en-US.pak | LC_ALL=C sort >$(T)/built
 
 

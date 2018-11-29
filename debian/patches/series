@@ -1,16 +1,1 @@
-title-bar-default-system.patch-v35
-search-credit.patch
-chromium_useragent.patch
-configuration-directory.patch
-arm-neon.patch
-additional-search-engines.patch
-touch-v35
-disable-sse2
-fix_building_widevinecdm_with_chromium.patch
-widevine-other-locations
-last-commit-position
-default-allocator
-enable-chromecast-by-default.patch
-revert-llvm-ar.patch
-fix-gn-bootstrap.patch
-use-clang-versioned.patch
+Fixed-v8-sunspider-page-test-can-not-detect-the-result-sometimes.
